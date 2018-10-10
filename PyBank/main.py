@@ -41,7 +41,7 @@ with open(pybank_csv, newline="") as csvfile:
         maximum = pl_maximum(profit_loss)
         minimum = min(profit_loss)
         minimum = pl_minimum(profit_loss)
-
+    
        
 
 print(f"Financial Analysis\n__________________________\n")
