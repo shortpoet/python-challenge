@@ -4,28 +4,45 @@ from collections import Counter
 from collections import defaultdict
 
 pollData = []
+candidate = []
 
 pyPoll_csv = os.path.join("..", "Resources", "election_data.csv", )
 
-with open(pyPoll_csv, newline="") as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        #voterId = row["Voter ID"]
-        #county = row["County"]
-        candidate = row["Candidate"]
-        pollData.append(
-            {
-                #"Voter ID": row["Voter ID"],
-                #"County": row["County"],
-                "Candidate": row["Candidate"],
-            }
-        )
+with open(pyPoll_csv, 'r', newline="") as csvfile:
+    csvreader = csv.reader(csvfile, delimiter=',')
+    header = next(csvreader, None)
+    for row in csvreader:               
+        candidate.append(row[2])
 
+totalVotes = len(candidate)
+
+#https://www.youtube.com/watch?v=dt4JCYtc1dE
 pollResults = defaultdict(int)
 for name in candidate:
     pollResults[name] += 1
 
-totalVotes = len(pollData)
+#https://stackoverflow.com/questions/1679384/converting-python-dictionary-to-list
+candidateResults = []
+candidateResults = list(pollResults.keys())
+voteResults = []
+voteResults = list(pollResults.values())
+electionResults = []
+electionResults = list(pollResults.items())
+
+#https://stackoverflow.com/questions/26871866/print-highest-value-in-dict-with-key?lq=1
+electionWinner = max(pollResults, key=pollResults.get)
+
+
+
+candidateLaterAlphabet = max(electionResults)
+
+candidate1Percentage = round((int(voteResults[0]) / int(totalVotes) * 100), 3)
+candidate2Percentage = round((int(voteResults[1]) / int(totalVotes) * 100), 3)
+candidate3Percentage = round((int(voteResults[2]) / int(totalVotes) * 100), 3)
+candidate4Percentage = round((int(voteResults[3]) / int(totalVotes) * 100), 3)
+
+
+#totalVotes = len(pollData)
 
 #pollResults = Counter(pollData)
 
@@ -73,17 +90,20 @@ returnString = (
     f"\r\nElection Results\r\n__________________________\r\n"
     f"\r\nTotal Votes: {totalVotes}"
     f"\r\n__________________________\r\n"
-    f"\r\nCandidate Results: {pollResults}"
-    #f"\r\nKhan: ({khanCount})"
-    #f"\r\nCandidate List: {candidateList}"
-    #f"\r\nKhan: {khanPercentage}% ({khanCount})"
-    #f"\r\nLi: {liPercentage}% ({liCount})"
-    #f"\r\nCorrey: {correyPercentage}% ({correyCount})"
-    #f"\r\nO'Tooley: {oTooleyPercentage}% ({oTooleyCount})"
+    #f"\r\nCandidate Results: {pollResults}"
+    f"\r\n{candidateResults[0]}: {candidate1Percentage}% ({voteResults[0]})"
+    f"\r\n{candidateResults[1]}: {candidate2Percentage}% ({voteResults[1]})"
+    f"\r\n{candidateResults[2]}: {candidate3Percentage}% ({voteResults[2]})"
+    f"\r\n{candidateResults[3]}: {candidate4Percentage}% ({voteResults[3]})"
     f"\r\n__________________________\r\n"
-    #f"\r\nWinner: {result}"
+    f"\r\nWinner: {electionWinner, pollResults[electionWinner]}"
+    f"\r\nCandidate Whose Surname Appears Last in Alphabetical Order: {candidateLaterAlphabet}"
 
-    #f"\r\nCandidate List: {pollData[1]}"
+    #f"\r\nCandidate List: {candidateResults[0]}"
+
+#print(f"{pollResults['Correy']}")
+
+
                                             )
 print(returnString)
 
