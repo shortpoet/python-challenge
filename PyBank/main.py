@@ -51,4 +51,13 @@ print(f"Average Change: {average}")
 print(f"Greatest Increase in Profits: {maximum}")
 print(f"Greatest Decrease in Profits: {minimum}")
 
-output_file = os.path.join("")
+output_file = os.path.join("Financial Analysis.txt")
+
+with open(output_file, "w", newline="") as datafile:
+    return_string = f"Financial Analysis\r\n__________________________\r\n"
+    return_string += f"\r\nTotal Months: {months}"
+    return_string += f"\r\nTotal: {total}"
+    return_string += f"\r\nAverage Change: {average}"
+    return_string += f"\r\nGreatest Increase in Profits: {maximum}"
+    return_string += f"\r\nGreatest Decrease in Profits: {minimum}"
+    datafile.write(return_string)
