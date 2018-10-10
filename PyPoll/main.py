@@ -1,5 +1,6 @@
 import os
 import csv
+#import operator
 
 voterId = []
 county = []
@@ -61,6 +62,7 @@ resultsDict = {
 #result = max(resultsDict.values())
 result = max(resultsDict, key=resultsDict.get)
 #result = max(resultsDict.items(), key=lambda x: x[1])
+#result = max(resultsDict.iteritems(), key=operator.itemgetter(1))[0]
 
 returnString = ( 
     f"\r\nElection Results\r\n__________________________\r\n"
