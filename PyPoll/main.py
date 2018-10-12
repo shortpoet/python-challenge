@@ -85,4 +85,15 @@ print(returnString)
 output_file = os.path.join("Election Results.txt")
 
 with open(output_file, "w", newline="") as datafile:
-    datafile.write(returnString)
+    datafile.write( 
+    f"\r\nElection Results\r\n__________________________\r\n"
+    f"\r\nTotal Votes: {totalVotes}"
+    f"\r\n__________________________\r\n")
+
+for k,v in pollResults.items():
+    percentage = (v / totalVotes) * 100
+    datafile.writelines(f"{str(k)}: {str(v)} ({round(percentage, 3)})")    
+    
+    #datafile.write(
+    #f"\r\n__________________________\r\n"
+    #f"\r\nWinner: {electionWinner, pollResults[electionWinner]}")
