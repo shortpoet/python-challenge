@@ -42,6 +42,11 @@ candidate3Percentage = round((int(voteResults[2]) / int(totalVotes) * 100), 3)
 candidate4Percentage = round((int(voteResults[3]) / int(totalVotes) * 100), 3)
 
 
+#def candidateReturn():#candidateResults):
+#    for i in range(len(candidateResults)):
+#        candidatePercentage[i] = round((int(voteResults[i]) / int(totalVotes) * 100), 3)
+    
+
 #totalVotes = len(pollData)
 
 #pollResults = Counter(pollData)
