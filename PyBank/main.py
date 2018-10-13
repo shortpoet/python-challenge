@@ -19,7 +19,7 @@ def pl_maximum(numbers):
 def pl_minimum(numbers):
     minimum = 0.0
     for number in numbers:
-        if number > minimum:
+        if number < minimum:
             minimum = number
     return minimum
 
@@ -37,9 +37,9 @@ with open(pybank_csv, newline="") as csvfile:
         total = pl_total(profit_loss)
         total = sum(profit_loss)
         average = total / months
-        maximum = max(profit_loss)
+        #maximum = max(profit_loss)
         maximum = pl_maximum(profit_loss)
-        minimum = min(profit_loss)
+        #minimum = min(profit_loss)
         minimum = pl_minimum(profit_loss)
     
        

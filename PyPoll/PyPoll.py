@@ -1,93 +1,99 @@
 import os
 import csv
-from collections import Counter
-from collections import defaultdict
+#import operator
 
-pollData = []
+voterId = []
+county = []
+candidate = []
+
+def uniqueFinder(items):
+    uniqueList = []
+    for item in items:
+        #uniqueList.append(item)
+        if item not in uniqueList:
+            uniqueList.append(item)
+    return uniqueList
+
+#def uniqueFinder(items):
+#    uniqueList = []
+#    uniqueList = [item for item in items if item not in uniqueList]
+#    return uniqueList
+
+
 
 pyPoll_csv = os.path.join("..", "Resources", "election_data.csv", )
 
+
 with open(pyPoll_csv, newline="") as csvfile:
-    reader = csv.DictReader(csvfile)
-    for row in reader:
-        #voterId = row["Voter ID"]
-        #county = row["County"]
-        candidate = row["Candidate"]
-        pollData.append(
-            {
-                #"Voter ID": row["Voter ID"],
-                #"County": row["County"],
-                "Candidate": row["Candidate"],
-            }
-        )
+    csvreader = csv.reader(csvfile, delimiter=",")
+    for row in csvreader:
+        header = next(csvreader)
+        voterId.append(row[0])
+        totalVotes = len(voterId)
+        candidate.append(row[2])
+        
+        #candidateList = set(candidate)
+        #candidateList = uniqueFinder(candidate)
+        
+       
 
-pollResults = defaultdict(int)
-for name in candidate:
-    pollResults[name] += 1
+candidateList = uniqueFinder(candidate)
+khanCount = candidate.count("Khan")
+liCount = candidate.count("Li")
+correyCount = candidate.count("Correy")
+oTooleyCount = candidate.count("O'Tooley")
+khanPercentage = round((int(khanCount) / int(totalVotes) * 100), 3)
+liPercentage = round((int(liCount) / int(totalVotes) * 100), 3)
+correyPercentage = round((int(correyCount) / int(totalVotes) * 100), 3)
+oTooleyPercentage = round((int(oTooleyCount) / int(totalVotes) * 100), 3)
 
-totalVotes = len(pollData)
-
-#pollResults = Counter(pollData)
-
-#https://docs.python.org/3.3/library/collections.html?highlight=counter#collections.Counter.fromkeys
-#c = Counter(pollData)
-#pollResults = sum(c.values())
-
-#https://stackoverflow.com/questions/16406329/python-dictionary-count-of-unique-values
-#mergedDict = {}
-#for i in pollData:
-#    for k,v in i.items():
-#        try:
-#            c[k].append(v)
-#        except KeyError:
-#            c[k] = [v]
-#
-#for k,v in mergedDict.items():
-#    print "{0}: {1}".format(k, len(set(v)))
-
-#b =[j[0]] for i in pollData for j in i.items()]
-
-#for k in list(set(b)):
-#    print "{0}: {1}".format(k, b.count(k))
-
-#khanPercentage = round((int(khanCount) / int(totalVotes) * 100), 3)
-#liPercentage = round((int(liCount) / int(totalVotes) * 100), 3)
-#correyPercentage = round((int(correyCount) / int(totalVotes) * 100), 3)
-#oTooleyPercentage = round((int(oTooleyCount) / int(totalVotes) * 100), 3)
-
+#resultsList = [khanCount, liCount, correyCount, oTooleyCount]
+#result = max(resultsList)
 
 #candidateDict = {}.fromkeys(candidate, 0)
 #for word in candidate:    
 #    candidateDict[row[2]] += 1
 
-#resultsDict = {
-#    "Khan" : khanCount,
-#    "Li" : liCount,
-#    "Correy" : correyCount,
-#    "O'Tooley" : oTooleyCount}
+resultsDict = {
+    "Khan" : khanCount,
+    "Li" : liCount,
+    "Correy" : correyCount,
+    "O'Tooley" : oTooleyCount}
 #result = max(resultsDict.values())
-#result = max(resultsDict, key=resultsDict.get)
+result = max(resultsDict, key=resultsDict.get)
 #result = max(resultsDict.items(), key=lambda x: x[1])
+#result = max(resultsDict.iteritems(), key=operator.itemgetter(1))[0]
 
 returnString = ( 
     f"\r\nElection Results\r\n__________________________\r\n"
     f"\r\nTotal Votes: {totalVotes}"
     f"\r\n__________________________\r\n"
-    f"\r\nCandidate Results: {pollResults}"
+    #f"\r\nCandidate Results: {candidateDict}"
     #f"\r\nKhan: ({khanCount})"
     #f"\r\nCandidate List: {candidateList}"
-    #f"\r\nKhan: {khanPercentage}% ({khanCount})"
-    #f"\r\nLi: {liPercentage}% ({liCount})"
-    #f"\r\nCorrey: {correyPercentage}% ({correyCount})"
-    #f"\r\nO'Tooley: {oTooleyPercentage}% ({oTooleyCount})"
+    f"\r\nKhan: {khanPercentage}% ({khanCount})"
+    f"\r\nLi: {liPercentage}% ({liCount})"
+    f"\r\nCorrey: {correyPercentage}% ({correyCount})"
+    f"\r\nO'Tooley: {oTooleyPercentage}% ({oTooleyCount})"
     f"\r\n__________________________\r\n"
-    #f"\r\nWinner: {result}"
+    f"\r\nWinner: {result}"
 
-    #f"\r\nCandidate List: {pollData[1]}"
+    #f"\r\nCandidate List: {candidateList}"
                                             )
 print(returnString)
 
 output_file = os.path.join("Election Results.txt")
 
 with open(output_file, "w", newline="") as datafile:
-    datafile.write(returnString)
+    datafile.write( 
+    f"\r\nElection Results\r\n__________________________\r\n"
+    f"\r\nTotal Votes: {totalVotes}"
+    f"\r\n__________________________\r\n")
+
+for k,v in pollResults.items():
+    percentage = (v / totalVotes) * 100
+    datafile.writelines(f"{str(k)}: {str(v)} ({round(percentage, 3)})")    
+    
+    #datafile.write(
+    #f"\r\n__________________________\r\n"
+    #f"\r\nWinner: {electionWinner, pollResults[electionWinner]}")
